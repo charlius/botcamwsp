@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_restful import Api
 
-from infra.webhook import HelloWorld
-from infra.webhook import WebhookWsp
-from infra.listener_wsp import ListenerWsp
+from src.infra.webhook import HelloWorld
+from src.infra.webhook import WebhookWsp
+from src.infra.listener_wsp import ListenerWsp
 
 app = Flask(__name__)
 api = Api(app)
