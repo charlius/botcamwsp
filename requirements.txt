@@ -1,3 +1,5 @@
-gunicorn
 flask
-flask-restful
+flask_restful
+coloredlogs
+gunicorn
+pytz

@@ -1,4 +1,4 @@
 rm -rf venv
-virtualenv venv -p python
-source venv/Scripts/activate
+virtualenv -p python3 venv
+. venv/bin/activate
 pip install -r requirements.txt
