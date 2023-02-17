@@ -1,8 +1,8 @@
 from flask_restful import Resource
 from flask_restful import request
 
-from app.send_message import SendWsp
-from wsp.infra.wsp_repository import WspRepository
+from src.app.send_message import SendWsp
+from src.wsp.infra.wsp_repository import WspRepository
 
 
 class ListenerWsp(Resource):
