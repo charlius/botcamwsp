@@ -4,3 +4,4 @@ coloredlogs
 gunicorn
 pytz
 requests
+opencv-python
