@@ -1,6 +1,9 @@
 flask
+flask_cors
 flask_restful
 coloredlogs
 gunicorn
 pytz
 requests
+opencv-python==4.5.5.64
+pysftp
