@@ -16,7 +16,7 @@ class CamOnline(Resource):
 
     def get(self, op):
         print(op)
-        if "en vivo" in op:
+        if "vivo" in op:
             return Response(self.gen(VideoCamera()),
                         mimetype='multipart/x-mixed-replace; boundary=frame')
 

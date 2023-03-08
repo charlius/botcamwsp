@@ -7,3 +7,4 @@ pytz
 requests
 opencv-python==4.5.5.64
 pysftp
+paramiko

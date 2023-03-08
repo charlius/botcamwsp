@@ -2,12 +2,13 @@ from datetime import datetime, timedelta
 import os
 import time
 import cv2
+import paramiko
 import pysftp
 
 
 class VideoCamera(object):
     def __init__(self):
-        self.cam1 = "rtsp://admin:Cadu+1894@201.215.145.33:554"
+        self.cam1 = "rtsp://admin:Cadu+1894@201.215.145.33:99"
         self.video = cv2.VideoCapture(self.cam1)
 
     def __del__(self):
@@ -51,21 +52,19 @@ class VideoCamera(object):
 
         with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword, cnopts=cnopts) as sftp:
             print ("Connection succesfully stablished ... ")
-            if ".png" in cam:
-                cd = "/imagen"
-            elif ".mp4" in cam:
-                cd = "/video"
-            else:
-                return ""
-            with sftp.cd(cd):
+            if "mp4" in cam:
+                with sftp.cd("/video"):
                 # Subir el archivo local hola.txt al servidor.
-                # cam = "cam1.png"
+                    sftp.put("output.mp4")
+                    print ("imagen subida correctamente ... ")
+                    return "output.mp4"
+            elif ".png" in cam:
                 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-                print(BASE_DIR)
-                sftp.put(f"{BASE_DIR}{cd}/{cam}")
-                print ("imagen subida correctamente ... ")
-                return cam
-
+                with sftp.cd("/duran/imagen"):
+                    # Subir el archivo local hola.txt al servidor.
+                    sftp.put(f"{BASE_DIR}/imagen/{cam}")
+                    print ("imagen subida correctamente ... ")
+                    return cam
 
     def get_frame(self):
         face_detector = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
@@ -81,7 +80,7 @@ class VideoCamera(object):
 
     def get_video(self):
         print("capturando cam...")
-        cap = cv2.VideoCapture("rtsp://admin:Cadu+1894@201.215.145.33:554")
+        cap = cv2.VideoCapture("rtsp://admin:Cadu+1894@201.215.145.33:99")
         print("selecionado codec")
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         time.sleep(3)
