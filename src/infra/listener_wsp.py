@@ -7,10 +7,12 @@ from flask_restful import Resource
 from flask_restful import request
 import pysftp
 
+
 from src.app.camara import VideoCamera
 from src.app.send_message import SendWsp
 from src.wsp.infra.wsp_repository import WspRepository
 from src.html import html
+from src.app.data_convert import DataConvert
 
 
 class ListenerWsp(Resource):
@@ -18,10 +20,19 @@ class ListenerWsp(Resource):
         return {'hello': 'world'}
 
     def post(self):
-        phone = request.form.get("phone")
-        message = request.form.get("message").lower()
+        message = DataConvert().get_data(request.data)
+        id = message.get("id", "")
+        phone = message.get("phone", "56961720045")
+        message = message.get("message", "Error de servidor").lower()
+        result_id = self.check_id(id)
+        if not result_id:
+            return {"error": "no id"}, 200
+    
         op = request.form.get("op", "")
-        print(f"entro data phone: {phone}, message: {message}")
+        print(f"phone: {phone}, message: {message}, id: {id}")
+
+        if "error" in message:
+            return {"message": message}, 200
 
         if "001" in message:
             name = VideoCamera().get_image()
@@ -31,12 +42,15 @@ class ListenerWsp(Resource):
                 result = SendWsp(WspRepository()).send_image(name ,phone)
                 print(json.dumps(result))
                 return {'mensaje': result}, 200
+            txt = "Error al conectar con camaras, desconectadas o no conectadas al wifi"
+            SendWsp(WspRepository()).send_txt(txt=txt, phone=phone)
+            return {"error": "no camera"}, 200
         elif "002" in message:
             # name = VideoCamera().get_video()
             #if name:
             # print(f"video enviando... {name}")
             SendWsp(WspRepository()).send_txt(txt="generando enlace de video en vivo... (desface en la trasmision dependera del internet..)", phone=phone)
-            time.sleep(2)
+            # time.sleep(1)
 
             html = self.up_link_video()
             SendWsp(WspRepository()).send_video(name=html, phone=phone)
@@ -45,7 +59,7 @@ class ListenerWsp(Resource):
             return {'mensaje': result}, 200
 
         # result = SendWsp(WspRepository()).send_txt(txt="vuelve a mandar el mensaje con una de las opciones: imagen o video", phone=phone)
-        result = SendWsp(WspRepository()).send_video_or_imagen_button(phone=phone)
+        result = SendWsp(WspRepository()).send_menu_principal_button(phone=phone)
         print(json.dumps(result))
         return {'mensaje': 'enviado1'}, 200
 
@@ -75,3 +89,16 @@ class ListenerWsp(Resource):
 
                 return f"{nombre_aleatorio}.html"
             
+    def check_id(self, id):
+       with open('ids.json', 'r') as archivo:
+        datos = json.load(archivo)
+        if not id:
+            return False
+        if id in datos:
+            print("existe el dato")
+            return False
+        else:
+            datos[id] = {}
+            with open('ids.json', 'w') as archivo:
+                json.dump(datos, archivo)
+            return True

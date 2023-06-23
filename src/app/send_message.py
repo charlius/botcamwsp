@@ -19,3 +19,7 @@ class SendWsp():
     def send_video_or_imagen_button(self, phone):
         result = self.wsp_repo.send_video_or_imagen_button(phone=phone)
         return result
+
+    def send_menu_principal_button(self, phone):
+        result = self.wsp_repo.send_menu_principal_button(phone=phone)
+        return result

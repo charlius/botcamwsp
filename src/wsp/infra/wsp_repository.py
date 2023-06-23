@@ -2,7 +2,7 @@ import requests
 import json
 class WspRepository():
     def __init__(self) -> None:
-        self.token_wsp = "EAAZA0LuBg7yMBABsq2dJYjvrG1B7OgTSiA39fh9GuHcGr0jkjutYsRaX6XTzED4SZANEncCZCI1G1XvHwgz3lpDsr8ZB98kGVd8ZCh2MHjYvnbHeQIWoNuQ8zMZCZAjoMDRRgNey7OGJUKNOFDKFvQ7MSd5BVH3yCYdxsCnRMSlidONeni7ZBA6ZAwavJNknnt6rsZCdPxpudLqwZDZD"
+        self.token_wsp = "EAAZA0LuBg7yMBAEAejYW7Sgubx8ELo1ZCOZBMwXmNloWIEzGosnNWJSujtBrIDgAatSvoBkhP0c5o9Dk9UjGfRHIzdMyDnPNMTxKScaBKZAqkNhPRTFUM9Prvy5ZBAVujaGvargwtl3yhJoB9Lxs3PPjMZBCbgt9DZC5Cwa7QHgZBHG2UGQqD3SA3CNRkN2o9YhOlaH2OwQ6eAZDZD"
 
     def sendtxt(self, phone="56961720045", txt="default"):
         url = f"https://graph.facebook.com/v15.0/104981199191453/messages"
@@ -111,3 +111,79 @@ class WspRepository():
 
         response = requests.request("POST", url, headers=headers, data=payload)
         return response.json()
+
+    def send_menu_principal_button(self, phone="56961720045"):
+        url = f"https://graph.facebook.com/v15.0/104981199191453/messages"
+
+        payload = json.dumps(
+            {
+                "messaging_product": "whatsapp",
+                "recipient_type": "individual",
+                "to": f"{phone}",
+                "type": "interactive",
+                "interactive": {
+                    "type": "button",
+                    "body": {
+                        "text": "Que quieres hacer? 🤔❔❔"
+                    },
+                    "action": {
+                        "buttons": [
+                            {
+                                "type": "reply",
+                                "reply": {
+                                    "id": "000",
+                                    "title": "Alertar a Familia⚠❗"
+                                }
+                            },
+                            {
+                                "type": "reply",
+                                "reply": {
+                                    "id": "001",
+                                    "title": "Foto camaras📷"
+                                }
+                            },
+                            {
+                                "type": "reply",
+                                "reply": {
+                                    "id": "002",
+                                    "title": "🎥video"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        )
+        
+        headers = {
+        'Authorization': f'Bearer {self.token_wsp}',
+        'Content-Type': 'application/json'
+        }
+
+        response = requests.request("POST", url, headers=headers, data=payload)
+        return response.json()
+
+    def get_media_url(self, id_media):
+        
+        url = f"https://graph.facebook.com/v15.0/232201759676698?phone_number_id={id_media}"
+
+        payload={}
+        headers = {
+        'Authorization': f'Bearer {self.token_wsp}'
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+
+        print(response.text)
+
+    def get_download_media(self, url):
+
+
+        payload={}
+        headers = {
+        'Authorization': f'Bearer {self.token_wsp}'
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+
+        print(response)

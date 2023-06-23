@@ -1,0 +1,18 @@
+firebase conecciones (
+    crear
+        nombre de la familia
+        urls y nombre camara
+        telefonos
+        estado
+    editar
+    consular
+        nombre de la familia y lista de camaras
+    consultar emergencia
+        nombre de familia lista camaras y telefonos asociados
+) ROY
+estructura de mensajes del bot a los clientes (menu - mensaje por defecto ver camaras -cantidad camaras) CARLOS
+formulario para ser ingreso por primera vez del cliente
+ingresar el cliente por primera vez desde proyecto
+ingreso de un numero a al grupo de familia desde el bot por mensajes
+crear video comercial para publicidad en las redes y promocionarlo
+crear alerta y que se envie a todos los integrantes de la familia link de video de las camaras del que envio la alerta
