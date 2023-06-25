@@ -5,6 +5,7 @@ coloredlogs
 gunicorn
 pytz
 requests
-opencv-python==4.5.5.64
+opencv-python
 pysftp
 paramiko
+mysql-connector-python

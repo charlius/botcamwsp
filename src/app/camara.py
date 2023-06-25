@@ -7,8 +7,8 @@ import pysftp
 
 
 class VideoCamera(object):
-    def __init__(self):
-        self.cam1 = "rtsp://admin:Cadu+1894@201.215.145.33:99"
+    def __init__(self, url):
+        self.cam1 = url
         self.video = cv2.VideoCapture(self.cam1)
 
     def __del__(self):
@@ -26,16 +26,15 @@ class VideoCamera(object):
     #         print("Error al acceder a la cámara")
     #         return ""
 
-    def get_image(self):
+    def get_image(self, name_camera):
 
         leido, frame = self.video.read()
 
         if leido == True:
-            cam = "cam1.png"
             BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            cv2.imwrite(f"{BASE_DIR}/imagen/{cam}", frame)
+            cv2.imwrite(f"{BASE_DIR}/imagen/{name_camera}", frame)
             print("Foto tomada correctamente")
-            name = self.up_ftp_image(cam)
+            name = self.up_ftp_image(name_camera)
             #gtime.sleep(2)
             return name
         else:

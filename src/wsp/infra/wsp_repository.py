@@ -1,8 +1,11 @@
 import requests
 import json
+import os
 class WspRepository():
     def __init__(self) -> None:
-        self.token_wsp = "EAAZA0LuBg7yMBAAiVl6Epr2oCVFp2A376UaLVdZC9aliqYzjrScL5l6sjZCaXNZAmNoeC9LIf5VpJR9yD1G9KF9fCb6M0zjRWIz7IIoNni20oTsoZBZAOCus903ZCkODNnKVujB9Akl3rlCkHRCGysqHwU6iFW42ZCHdde3eBWJ2gQR49b7hlmDug5gtz4GEK245f1O9Ir8QNwZDZD"
+        print(os.environ)
+        token = os.environ.get('wsp_token')
+        self.token_wsp = str(token.strip())
 
     def sendtxt(self, phone="56961720045", txt="default"):
         url = f"https://graph.facebook.com/v15.0/104981199191453/messages"
@@ -32,9 +35,12 @@ class WspRepository():
         "messaging_product": "whatsapp",
         "recipient_type": "individual",
         "to": f"{phone}",
+        "header": {
+            "text": "hola1"
+        },
         "type": "image",
         "image": {
-            "link": f"https://hogarcam.com/duran/imagen/{name}"
+            "link": f"https://hogarcam.com/duran/imagen/{name}",
         }
         })
         headers = {
@@ -160,7 +166,6 @@ class WspRepository():
                 }
             }
         )
-        
         headers = {
         'Authorization': f'Bearer {self.token_wsp}',
         'Content-Type': 'application/json'
@@ -168,6 +173,7 @@ class WspRepository():
 
         response = requests.request("POST", url, headers=headers, data=payload)
         return response.json()
+    
 
     def send_template_principal(self, phone):
         url = "https://graph.facebook.com/v17.0/104981199191453/messages"
