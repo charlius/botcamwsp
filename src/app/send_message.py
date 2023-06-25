@@ -23,3 +23,7 @@ class SendWsp():
     def send_menu_principal_button(self, phone):
         result = self.wsp_repo.send_menu_principal_button(phone=phone)
         return result
+    
+    def send_template_principal(self, phone):
+        result = self.wsp_repo.send_template_principal(phone=phone)
+        return result

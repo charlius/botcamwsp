@@ -59,8 +59,10 @@ class ListenerWsp(Resource):
             return {'mensaje': result}, 200
 
         # result = SendWsp(WspRepository()).send_txt(txt="vuelve a mandar el mensaje con una de las opciones: imagen o video", phone=phone)
+        # result1 = SendWsp(WspRepository()).send_template_principal(phone=phone)
         result = SendWsp(WspRepository()).send_menu_principal_button(phone=phone)
         print(json.dumps(result))
+        # print(json.dumps(result1))
         return {'mensaje': 'enviado1'}, 200
 
     def up_link_video(self):

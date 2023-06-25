@@ -2,7 +2,7 @@ import requests
 import json
 class WspRepository():
     def __init__(self) -> None:
-        self.token_wsp = "EAAZA0LuBg7yMBAEAejYW7Sgubx8ELo1ZCOZBMwXmNloWIEzGosnNWJSujtBrIDgAatSvoBkhP0c5o9Dk9UjGfRHIzdMyDnPNMTxKScaBKZAqkNhPRTFUM9Prvy5ZBAVujaGvargwtl3yhJoB9Lxs3PPjMZBCbgt9DZC5Cwa7QHgZBHG2UGQqD3SA3CNRkN2o9YhOlaH2OwQ6eAZDZD"
+        self.token_wsp = "EAAZA0LuBg7yMBAAiVl6Epr2oCVFp2A376UaLVdZC9aliqYzjrScL5l6sjZCaXNZAmNoeC9LIf5VpJR9yD1G9KF9fCb6M0zjRWIz7IIoNni20oTsoZBZAOCus903ZCkODNnKVujB9Akl3rlCkHRCGysqHwU6iFW42ZCHdde3eBWJ2gQR49b7hlmDug5gtz4GEK245f1O9Ir8QNwZDZD"
 
     def sendtxt(self, phone="56961720045", txt="default"):
         url = f"https://graph.facebook.com/v15.0/104981199191453/messages"
@@ -123,6 +123,12 @@ class WspRepository():
                 "type": "interactive",
                 "interactive": {
                     "type": "button",
+                    "header": {
+                        "type": "video",
+                        "video": {
+                            "link": "https://andrescallis.cl/videos/video.mp4"
+                        }
+                    },
                     "body": {
                         "text": "Que quieres hacer? 🤔❔❔"
                     },
@@ -161,6 +167,29 @@ class WspRepository():
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
+        return response.json()
+
+    def send_template_principal(self, phone):
+        url = "https://graph.facebook.com/v17.0/104981199191453/messages"
+
+        headers = {
+            "Authorization": f"Bearer {self.token_wsp}",
+            "Content-Type": "application/json"
+        }
+
+        data = {
+            "messaging_product": "whatsapp",
+            "to": phone,
+            "type": "template",
+           "template": {
+                "name": "TEMPLATE_NAME",
+                "language": {
+                "code": "es_ARG"
+                },
+            }
+        }
+
+        response = requests.post(url, headers=headers, data=json.dumps(data))
         return response.json()
 
     def get_media_url(self, id_media):
